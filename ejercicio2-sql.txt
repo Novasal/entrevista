@@ -1,0 +1,60 @@
+http://sqlfiddle.com/#!9/b9832d/5
+
+
+CREATE TABLE Workers(
+    WORKER_ID INT NOT NULL,
+    FIRST_NAME VARCHAR(15) NOT NULL,
+    LAST_NAME VARCHAR(15) NOT NULL,
+    SALARY INT NOT NULL,
+    JOINING_DATE DATETIME NOT NULL,
+    DEPARTMENT VARCHAR(15),
+    PRIMARY KEY (WORKER_ID)
+);
+
+CREATE TABLE Worker_Bonus (
+    WORKER_REF_ID INT NOT NULL,
+    BONUS_DATE DATETIME NOT NULL,
+    BONUS_AMOUNT INT NOT NULL
+);
+
+INSERT INTO Workers
+    (WORKER_ID, FIRST_NAME, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT)
+VALUES
+    (001,'Monika','Arora',100000,str_to_date('20-02-2014 09:00:00','%d-%m-%Y %I:%i:%S'),'HR'),
+    (002,'Niharika','Verma',80000,str_to_date('11-06-2014 09:00:00','%d-%m-%Y %I:%i:%S'),'Admin'),
+    (003,'Vishal','Singhal',300000,str_to_date('20-02-2014 09:00:00','%d-%m-%Y %I:%i:%S'),'Engineering'),
+    (004,'Amitabh','Singh',500000,str_to_date('20-02-2014 09:00:00','%d-%m-%Y %I:%i:%S'),'Account'),
+    (005,'Vishant','Kumar',450000,str_to_date('01-02-2015 09:00:00','%d-%m-%Y %I:%i:%S'),'Engineering')
+;
+
+INSERT INTO Worker_Bonus
+    (WORKER_REF_ID,BONUS_DATE,BONUS_AMOUNT)
+VALUES
+    (1,str_to_date('20-02-2016','%d-%m-%Y'), 5000),
+    (2,str_to_date('11-06-2016','%d-%m-%Y'),3000),
+    (3,str_to_date('20-02-2016','%d-%m-%Y'),4000)
+;
+
+
+############################################################################################
+
+
+SELECT DISTINCT DEPARTMENT FROM Workers
+;
+
+SELECT CONCAT(FIRST_NAME,' ',LAST_NAME) AS FULL_NAME FROM Workers
+;
+
+SELECT CONCAT(FIRST_NAME,' ',LAST_NAME) AS FULL_NAME FROM Workers
+WHERE SALARY >= 300000 AND SALARY <= 500000
+;
+
+SELECT CONCAT(FIRST_NAME,' ',LAST_NAME) AS FULL_NAME, MAX(BONUS_AMOUNT) 
+FROM Workers JOIN Worker_Bonus ON WORKER_ID = WORKER_REF_ID
+;
+
+SELECT CONCAT(FIRST_NAME,' ',LAST_NAME) AS FULL_NAME, Salary FROM Workers 
+GROUP BY salary  ORDER BY  salary DESC LIMIT 1 OFFSET 1
+;
+
+

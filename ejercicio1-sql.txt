@@ -1,0 +1,54 @@
+http://sqlfiddle.com/#!9/09980dd/4
+
+
+CREATE TABLE EmployeeDetails (    
+    EmpId int NOT NULL,
+    FullName varchar(15) NOT NULL,
+    ManagerId int NOT NULL,
+    DateOfJoining date NOT NULL,
+    City varchar(15) NOT NULL,
+    PRIMARY KEY(EmpId) 
+);
+
+CREATE TABLE EmployeeSalary(
+    EmpId int NOT NULL,
+    Project varchar(2) NOT NULL,
+    Salary int NOT NULL,
+    Variable int NOT NULL,
+    FOREIGN KEY (EmpId) REFERENCES EmployeeDetails(EmpId)
+);
+
+INSERT INTO EmployeeDetails
+    (EmpId, FullName, ManagerId, DateOfJoining,City)
+VALUES
+    (121, 'John Snow', 321, str_to_date('01-31-2014', '%m-%d-%Y'), 'Toronto'),
+    (321, 'Walter White', 986, str_to_date('01-30-2015', '%m-%d-%Y'), 'San Francisco'),
+    (421, 'Kuldeep Rana', 876, str_to_date('27-11-2016', '%d-%m-%Y'), 'New Delhi')
+;
+
+INSERT INTO EmployeeSalary
+    (EmpId, Project, Salary, Variable)
+VALUES
+    (121, 'P1', 8000, 500),
+    (321, 'P2', 10000, 1000),
+    (421, 'P1', 12000,0)
+;
+
+UPDATE EmployeeSalary
+JOIN EmployeeDetails ON EmployeeDetails.EmpId = EmployeeSalary.EmpId
+SET Variable = 1500
+WHERE City = 'San Francisco'
+
+
+##############################################################################
+
+
+SELECT FullName,City FROM EmployeeDetails
+JOIN EmployeeSalary ON EmployeeSalary.EmpId = EmployeeDetails.EmpId
+WHERE Project = 'P1'
+;
+
+SELECT FullName, Salary+Variable AS TotalCompensation
+FROM EmployeeSalary
+JOIN EmployeeDetails ON EmployeeDetails.EmpId = EmployeeSalary.EmpId
+
